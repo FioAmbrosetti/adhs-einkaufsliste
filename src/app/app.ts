@@ -4,11 +4,21 @@ import { ShoppingListStore } from './app-store';
 import { ArticleForm } from './types';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-root',
-  imports: [FormField, MatFormFieldModule, MatInputModule, MatLabel, MatButtonModule],
+  imports: [
+    FormField,
+    MatFormFieldModule,
+    MatInputModule,
+    MatLabel,
+    MatButtonModule,
+    MatListModule,
+    MatIconModule,
+  ],
   styleUrl: './app-styles.scss', // FormRoot könnte die Submission-Lösung sein
   template: `
     <header>
@@ -17,53 +27,78 @@ import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/fo
       <p>Let's do some goddamn shopping.</p>
     </header>
     <main>
-      <section id="eingabe">
+      <section id="input">
         <h3>Neuen Artikel hinzufügen</h3>
-        <form>
-          <mat-form-field>
-            <mat-label>Neuer Artikel</mat-label>
-            <input matInput type="text" [formField]="articleForm.name" />
-          </mat-form-field>
-          <br />
-          <mat-form-field>
-            <mat-label>Menge</mat-label>
-            <input matInput type="text" [formField]="articleForm.amount" />
-          </mat-form-field>
-          <br />
-          <button matButton="outlined" type="submit" (click)="store.addArticle(formValues())">
-            Hinzufügen
-          </button>
-        </form>
+        <div class="input">
+          <form>
+            <mat-form-field>
+              <mat-label>Neuer Artikel</mat-label>
+              <input matInput type="text" [formField]="articleForm.name" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Menge</mat-label>
+              <input matInput type="text" [formField]="articleForm.amount" />
+            </mat-form-field>
+            <br />
+            <button matButton="outlined" type="submit" (click)="store.addArticle(formValues())">
+              Hinzufügen
+            </button>
+          </form>
+        </div>
       </section>
       <section id="einkaufsliste">
         <h3>Einkaufsliste</h3>
-        <ul>
+        <mat-list role="list">
           @for (article of store.articles(); track article.id) {
             @if (article.isDone === false) {
-              <li>
-                {{ article.name + ', ' + article.amount }}
-                <span
-                  ><button (click)="store.updateArticle(article.id, formValues())">&#10003;</button>
-                  <button (click)="store.removeArticle(article.id)">❌</button></span
-                >
-              </li>
+              <mat-list-item role="listitem">
+                <div class="container">
+                  <button
+                    matIconButton
+                    aria-label="Gekauft"
+                    (click)="store.updateArticle(article.id, formValues())"
+                  >
+                    <mat-icon>done outline</mat-icon>
+                  </button>
+                  {{ article.name + ', ' + article.amount }}
+                  <button
+                    matIconButton
+                    aria-label="Artikel löschen"
+                    (click)="store.updateArticle(article.id, formValues())"
+                  >
+                    <mat-icon>delete_forever</mat-icon>
+                  </button>
+                </div>
+              </mat-list-item>
             }
           }
-        </ul>
+        </mat-list>
         <h3>Vorschläge</h3>
-        <ul>
+        <mat-list role="list">
           @for (article of store.articles(); track article.id) {
             @if (article.isDone === true) {
-              <li>
-                {{ article.name + ', ' + article.amount }}
-                <span
-                  ><button (click)="store.updateArticle(article.id, formValues())">&#10003;</button>
-                  <button (click)="store.removeArticle(article.id)">❌</button></span
-                >
-              </li>
+              <mat-list-item role="listitem">
+                <div class="container">
+                  <button
+                    matIconButton
+                    aria-label="Zur Einkaufsliste hinzufügen"
+                    (click)="store.updateArticle(article.id, formValues())"
+                  >
+                    <mat-icon>playlist_add</mat-icon>
+                  </button>
+                  {{ article.name + ', ' + article.amount }}
+                  <button
+                    matIconButton
+                    aria-label="Artikel löschen"
+                    (click)="store.updateArticle(article.id, formValues())"
+                  >
+                    <mat-icon>delete_forever</mat-icon>
+                  </button>
+                </div>
+              </mat-list-item>
             }
           }
-        </ul>
+        </mat-list>
       </section>
     </main>
   `,
