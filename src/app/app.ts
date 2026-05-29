@@ -2,10 +2,14 @@ import { Component, inject, signal } from '@angular/core';
 import { form, FormField, required } from '@angular/forms/signals';
 import { ShoppingListStore } from './app-store';
 import { ArticleForm } from './types';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-root',
-  imports: [FormField], // FormRoot könnte die Submission-Lösung sein
+  imports: [FormField, MatFormFieldModule, MatInputModule, MatLabel, MatButtonModule],
+  styleUrl: './app-styles.scss', // FormRoot könnte die Submission-Lösung sein
   template: `
     <header>
       <h1>EDeHS</h1>
@@ -16,15 +20,19 @@ import { ArticleForm } from './types';
       <section id="eingabe">
         <h3>Neuen Artikel hinzufügen</h3>
         <form>
-          <label>
-            Neuer Artikel:
-            <input type="text" [formField]="articleForm.name" />
-          </label>
-          <label>
-            Menge:
-            <input type="text" [formField]="articleForm.amount" />
-          </label>
-          <button type="submit" (click)="store.addArticle(formValues())">Artikel hinzufügen</button>
+          <mat-form-field>
+            <mat-label>Neuer Artikel</mat-label>
+            <input matInput type="text" [formField]="articleForm.name" />
+          </mat-form-field>
+          <br />
+          <mat-form-field>
+            <mat-label>Menge</mat-label>
+            <input matInput type="text" [formField]="articleForm.amount" />
+          </mat-form-field>
+          <br />
+          <button matButton="outlined" type="submit" (click)="store.addArticle(formValues())">
+            Hinzufügen
+          </button>
         </form>
       </section>
       <section id="einkaufsliste">
