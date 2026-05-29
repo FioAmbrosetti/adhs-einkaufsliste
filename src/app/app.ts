@@ -24,7 +24,6 @@ import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
     <header>
       <h1>EDeHS</h1>
       <h2>Welcome, scatterbrain!</h2>
-      <p>Let's do some goddamn shopping.</p>
     </header>
     <main>
       <section id="input">
@@ -64,7 +63,7 @@ import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
                   <button
                     matIconButton
                     aria-label="Artikel löschen"
-                    (click)="store.updateArticle(article.id, formValues())"
+                    (click)="store.removeArticle(article.id)"
                   >
                     <mat-icon>delete_forever</mat-icon>
                   </button>
@@ -90,7 +89,7 @@ import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
                   <button
                     matIconButton
                     aria-label="Artikel löschen"
-                    (click)="store.updateArticle(article.id, formValues())"
+                    (click)="store.removeArticle(article.id)"
                   >
                     <mat-icon>delete_forever</mat-icon>
                   </button>
