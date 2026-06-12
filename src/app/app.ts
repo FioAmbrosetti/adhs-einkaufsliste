@@ -55,7 +55,7 @@ import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
                   <button
                     matIconButton
                     aria-label="Gekauft"
-                    (click)="store.updateArticle(article.id, formValues())"
+                    (click)="updateArticleStatus(article.id)"
                   >
                     <mat-icon>done outline</mat-icon>
                   </button>
@@ -81,7 +81,7 @@ import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
                   <button
                     matIconButton
                     aria-label="Zur Einkaufsliste hinzufügen"
-                    (click)="store.updateArticle(article.id, formValues())"
+                    (click)="updateArticleStatus(article.id)"
                   >
                     <mat-icon>playlist_add</mat-icon>
                   </button>
@@ -114,4 +114,13 @@ export class App {
       message: 'Na, also wenigstens ein Stichwort solltest du schon schreiben.',
     });
   });
+  // update-Artikel-Methode hier statt im Store direkt
+  // nimmt die ID als Parameter, returned nix
+  // updated den Wert des als Signal gespeicherten Forms mit dem geflippten Boolean
+  // reicht die id und das entpackte Signal dann an die Store-Methode weiter, die wiederum
+  // den gespeicherten Artikel ändern und überspeichert
+  updateArticleStatus(id: string): void {
+    this.articleForm.isDone().value.update((oldValue) => !oldValue);
+    this.store.updateArticle(id, this.formValues());
+  }
 }

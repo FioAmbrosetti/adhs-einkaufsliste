@@ -34,7 +34,9 @@ export const ShoppingListStore = signalStore(
       patchState(store, (state) => ({
         articles: state.articles.map((article) => {
           if (article.id === id) {
-            article.isDone = !article.isDone;
+            // article.isDone = !article.isDone;
+            console.log({ ...article, isDone });
+            console.log(isDone);
             return { ...article, isDone };
           } else {
             return article;
